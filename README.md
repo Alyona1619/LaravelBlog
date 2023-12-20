@@ -1,12 +1,9 @@
-# Задание Laravel: Начало (v1.0)
-/test - тест роутов, контроллеров и представлений</br>
-/form - форма с отправкой POST-запроса и сохранение полученных данных в файл JSON</br>
-/show_data - вывод полученных данных в виде таблицы</br>
+# Задание Laravel: Blog
 
-
-# Задание Laravel: Работа с данными (v2.1)
-### Demonstration:
-[https://youtu.be/zwgZb1cA2Zo](https://youtu.be/zwgZb1cA2Zo)
+/posts - все посты с комментариями (одобренными), у которых пришло время публикации
+/posts/create - создание поста с возможностью установить дату и время публикации
+/posts/{post} - отдельный пост с его комментариями (одобренными), кнопки: "вернуться к списку постов", "обновить", "оставить комментарий(/posts/{post}/comments/create)" (он получит статус pending и будет ждать одобрения)
+/comments - страницы с комментариями, которые можно одобрить или отклонить
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
