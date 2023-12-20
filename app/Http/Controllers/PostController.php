@@ -1,69 +1,91 @@
 <?php
-
 namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use App\Models\Post;
 
 use App\Events\PostCreated;
-use App\Models\Post;
-use Illuminate\Http\Request;
+use App\Events\PostUpdated;
+use App\Events\PostDeleted;
 
 class PostController extends Controller
 {
     public function index()
-    {
-        // Метод для отображения всех постов
-        $posts = Post::all();
-        return view('posts.index', compact('posts'));
-    }
+{
+    $posts = Post::with('comments')
+        ->where(function ($query) {
+            $query->whereNull('publish_at')
+                ->orWhere('publish_at', '<=', now());
+        })
+        ->where('published', true) 
+        ->get();
+
+    return view('posts.index', compact('posts'));
+}
 
     public function create()
     {
-        // Метод для отображения формы создания поста
         return view('posts.create');
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Post $post)
     {
-        // Метод для сохранения нового поста в базе данных
+        $request->validate([
+            'title' => 'required|string',
+            'content' => 'required|string',
+            'publish_at' => 'nullable|date',
+        ]);
+
         $post = Post::create($request->all());
 
-        // Отправка события о создании поста
         event(new PostCreated($post));
 
         return redirect()->route('posts.index');
     }
 
+    public function show(Post $post)
+    {
+        $approvedComments = $post->comments()->where('status', 'approved')->get();
+        return view('posts.show', compact('post', 'approvedComments'));
+    }
+
     public function edit(Post $post)
     {
-        // Метод для отображения формы редактирования поста
         return view('posts.edit', compact('post'));
     }
 
     public function update(Request $request, Post $post)
     {
-        // Метод для обновления поста в базе данных
+        $request->validate([
+            'title' => 'required|string',
+            'content' => 'required|string',
+            'publish_at' => 'nullable|date',
+        ]);
+
         $post->update($request->all());
-        return redirect()->route('posts.index');
+        event(new PostUpdated($post));
+        return redirect()->route('posts.show', $post);
     }
 
     public function destroy(Post $post)
     {
-        // Метод для удаления поста из базы данных
         $post->delete();
+        event(new PostDeleted($post));
         return redirect()->route('posts.index');
     }
 
     public function publish(Post $post)
     {
-        // Метод для публикации поста
-        $post->update(['published_at' => now()]);
-        return redirect()->route('posts.index');
+        if ($post->publish_at === null || $post->publish_at <= now()) {
+            $post->update(['publish_at' => now(), 'published' => true]);
+            return redirect()->route('posts.show', $post);
+        } else {
+            return redirect()->route('posts.show', $post)->with('error', 'Нельзя опубликовать пост до указанной даты и времени.');
+        }
     }
 
     public function unpublish(Post $post)
     {
-        // Метод для снятия с публикации поста
-        $post->update(['published_at' => null]);
-        return redirect()->route('posts.index');
+        $post->update(['publish_at' => null]);
+        return redirect()->route('posts.show', $post);
     }
 }
-

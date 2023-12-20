@@ -1,8 +1,10 @@
+<!-- task Laravel: Beginning -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Laravel_HW_1</title>
+    <title>Laravel_HW_1_and_2</title>
     <style>
         body{
             font-family: Arial, Helvetica, sans-serif;
@@ -84,3 +86,4 @@
     </footer>
 </body>
 </html>
+

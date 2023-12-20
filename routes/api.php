@@ -1,19 +1,14 @@
 <?php
-
+#task Laravel: working with data
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\DataController as APIDataController;
+use App\Http\Controllers\API\UserController as APIUserController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/api/users', [APIUserController::class, 'index']);
+Route::get('/api/users/{id}', [APIUserController::class, 'show']);
+
+Route::get('/api/data', [APIDataController::class, 'index']);
+Route::get('/api/data/{id}', [APIDataController::class, 'show']);
+

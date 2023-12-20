@@ -12,9 +12,10 @@ class CreateCommentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('post_id');
             $table->text('content');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
             $table->softDeletes();
-
+        
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
         });
     }
@@ -24,4 +25,3 @@ class CreateCommentsTable extends Migration
         Schema::dropIfExists('comments');
     }
 }
-

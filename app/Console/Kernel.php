@@ -10,11 +10,16 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      */
-    protected function schedule(Schedule $schedule): void
+
+    // php artisan schedule:run
+
+
+
+    protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
-        $schedule->command('publish:posts')->everyMinute();
+        $schedule->command('posts:publish-scheduled')->everyMinute(); 
     }
+
 
     /**
      * Register the commands for the application.
@@ -23,11 +28,6 @@ class Kernel extends ConsoleKernel
     {
         $this->load(__DIR__.'/Commands');
 
-        $this->commands([
-            \App\Console\Commands\PublishPosts::class,
-        ]);
-
-        //require base_path('routes/console.php');
+        require base_path('routes/console.php');
     }
-    
 }

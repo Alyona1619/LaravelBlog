@@ -4,9 +4,8 @@
 <nav class="navbar">
     <ul>
         <li><a href="/">Главная</a></li>
-        <li><a href="/test">Тест1</a></li>
-        <li><a href="/test">Тест2</a></li>
-        <li><a href="/test">Тест3</a></li>
-        <li><a href="/test">Это хедер</a></li>
+        <li><a href="/test">Раздел</a></li>
+        <li><a href="/test">Раздел</a></li>
+        <li><a href="/test">Раздел</a></li>
     </ul>
 </nav>

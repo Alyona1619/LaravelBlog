@@ -13,6 +13,7 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->text('content');
             $table->timestamp('publish_at')->nullable();
+            $table->boolean('published')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -23,4 +24,3 @@ class CreatePostsTable extends Migration
         Schema::dropIfExists('posts');
     }
 }
-
